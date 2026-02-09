@@ -103,6 +103,7 @@
         backdrop-filter: blur(14px);
         text-align: center;
         animation: float-in 0.8s ease-out;
+        overflow: visible;
       }
 
       .card.hidden {
@@ -268,6 +269,124 @@
         width: 100%;
         display: block;
         height: auto;
+      }
+
+      .meme-celebrate {
+        position: relative;
+        display: inline-block;
+      }
+
+      .party-popper {
+        position: absolute;
+        top: 50%;
+        font-size: 3.2rem;
+        line-height: 1;
+        text-shadow: 0 6px 14px rgba(244, 63, 122, 0.2);
+        animation: popper-bounce 1.4s ease-in-out infinite;
+        pointer-events: none;
+      }
+
+      .party-popper.left {
+        left: -78px;
+        --pop-rot: -18deg;
+        transform: translateY(-50%) rotate(var(--pop-rot));
+      }
+
+      .party-popper.right {
+        right: -78px;
+        --pop-rot: 18deg;
+        transform: translateY(-50%) rotate(var(--pop-rot));
+      }
+
+      .party-popper .popper-emoji {
+        display: block;
+      }
+
+      .party-popper .popper-confetti {
+        position: absolute;
+        width: 9px;
+        height: 9px;
+        border-radius: 2px;
+        opacity: 0;
+      }
+
+      .party-popper.left .popper-confetti {
+        animation: popper-confetti-left 1.4s ease-out infinite;
+      }
+
+      .party-popper.right .popper-confetti {
+        animation: popper-confetti-right 1.4s ease-out infinite;
+      }
+
+      .party-popper .popper-confetti.c1 {
+        background: #f43f7a;
+        animation-delay: 0s;
+      }
+
+      .party-popper .popper-confetti.c2 {
+        background: #f9a8c7;
+        animation-delay: 0.15s;
+      }
+
+      .party-popper .popper-confetti.c3 {
+        background: #ffd1e5;
+        animation-delay: 0.3s;
+      }
+
+      .party-popper .popper-confetti.c4 {
+        background: #ff9ebc;
+        animation-delay: 0.45s;
+      }
+
+      .party-popper .popper-confetti.c5 {
+        background: #ffa2c6;
+        animation-delay: 0.6s;
+      }
+
+      .party-popper .popper-confetti.c6 {
+        background: #fcd5e3;
+        animation-delay: 0.75s;
+      }
+
+      @keyframes popper-confetti-left {
+        0% {
+          opacity: 0;
+          transform: translate(6px, 0) scale(0.8) rotate(0deg);
+        }
+        10% {
+          opacity: 0.9;
+        }
+        100% {
+          opacity: 0;
+          transform: translate(-70px, -40px) scale(1.1) rotate(-120deg);
+        }
+      }
+
+      @keyframes popper-confetti-right {
+        0% {
+          opacity: 0;
+          transform: translate(-6px, 0) scale(0.8) rotate(0deg);
+        }
+        10% {
+          opacity: 0.9;
+        }
+        100% {
+          opacity: 0;
+          transform: translate(70px, -40px) scale(1.1) rotate(120deg);
+        }
+      }
+
+      @keyframes popper-bounce {
+        0%,
+        100% {
+          transform: translateY(-50%) scale(1) rotate(var(--pop-rot, 0deg));
+          filter: drop-shadow(0 6px 14px rgba(244, 63, 122, 0.2));
+        }
+        50% {
+          transform: translateY(-56%) scale(1.12)
+            rotate(calc(var(--pop-rot, 0deg) + 6deg));
+          filter: drop-shadow(0 10px 20px rgba(244, 63, 122, 0.28));
+        }
       }
 
       .progress {
@@ -551,11 +670,31 @@
         <div class="card-content hidden" id="meme-content">
           <p class="eyebrow">Processing...</p>
           <h2>Just a second.</h2>
-          <div class="meme-frame">
-            <img
-              src="images/meme_peeku.webp"
-              alt="Playful meme peeking in"
-            />
+          <div class="meme-celebrate">
+            <span class="party-popper left" aria-hidden="true">
+              <span class="popper-emoji">🎉</span>
+              <span class="popper-confetti c1"></span>
+              <span class="popper-confetti c2"></span>
+              <span class="popper-confetti c3"></span>
+              <span class="popper-confetti c4"></span>
+              <span class="popper-confetti c5"></span>
+              <span class="popper-confetti c6"></span>
+            </span>
+            <div class="meme-frame">
+              <img
+                src="images/meme_peeku.webp"
+                alt="Playful meme peeking in"
+              />
+            </div>
+            <span class="party-popper right" aria-hidden="true">
+              <span class="popper-emoji">🎉</span>
+              <span class="popper-confetti c1"></span>
+              <span class="popper-confetti c2"></span>
+              <span class="popper-confetti c3"></span>
+              <span class="popper-confetti c4"></span>
+              <span class="popper-confetti c5"></span>
+              <span class="popper-confetti c6"></span>
+            </span>
           </div>
           <p class="subtext">This will only take a moment.</p>
           <div class="progress" aria-hidden="true">
@@ -719,7 +858,7 @@
           </article>
           <article class="photo-card sparkle">
             <img src="images/wedding_pic.jpeg" alt="Wedding day" />
-            
+
             <div class="photo-content">
               <span class="photo-year">2025</span>
               <h3>November 9th - Our Wedding Day! 👰🤵</h3>
@@ -777,32 +916,79 @@
       const celebration = document.getElementById("celebration");
       let noMoves = 0;
 
-      // Subtle exclamation chime for "Yes"
       function playChime() {
-        const context = new (window.AudioContext ||
-          window.webkitAudioContext)();
-        const gainNode = context.createGain();
-        gainNode.gain.setValueAtTime(0.0001, context.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(
-          0.16,
-          context.currentTime + 0.02
-        );
-        gainNode.gain.exponentialRampToValueAtTime(
-          0.0001,
-          context.currentTime + 0.8
-        );
-        gainNode.connect(context.destination);
+  const AudioCtx = window.AudioContext || window.webkitAudioContext;
+  const ctx = new AudioCtx();
 
-        const notes = [440, 554, 659];
-        notes.forEach((freq, index) => {
-          const osc = context.createOscillator();
-          osc.type = "triangle";
-          osc.frequency.setValueAtTime(freq, context.currentTime + index * 0.06);
-          osc.connect(gainNode);
-          osc.start(context.currentTime + index * 0.06);
-          osc.stop(context.currentTime + index * 0.06 + 0.25);
-        });
-      }
+  const masterGain = ctx.createGain();
+  masterGain.gain.value = 0.35;
+  masterGain.connect(ctx.destination);
+
+  const now = ctx.currentTime;
+
+  // ---- Helper to play a note ----
+  function playNote(freq, start, duration, type = "triangle", gain = 0.15) {
+    const osc = ctx.createOscillator();
+    const g = ctx.createGain();
+
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, start);
+
+    g.gain.setValueAtTime(0.0001, start);
+    g.gain.exponentialRampToValueAtTime(gain, start + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, start + duration);
+
+    osc.connect(g);
+    g.connect(masterGain);
+
+    osc.start(start);
+    osc.stop(start + duration);
+  }
+
+  // ---- Happy melody (major scale bounce) ----
+  const melody = [
+    523.25, // C5
+    659.25, // E5
+    783.99, // G5
+    1046.5  // C6
+  ];
+
+  melody.forEach((freq, i) => {
+    playNote(freq, now + i * 0.12, 0.35, "triangle", 0.18);
+  });
+
+  // ---- Big “HURRAY” chord swell ----
+  const chord = [261.63, 329.63, 392.0]; // C major
+  chord.forEach(freq => {
+    playNote(freq, now + 0.45, 0.9, "sawtooth", 0.08);
+  });
+
+  // ---- Cheer shimmer (soft noise sparkle) ----
+  const noiseBuffer = ctx.createBuffer(1, ctx.sampleRate * 0.6, ctx.sampleRate);
+  const data = noiseBuffer.getChannelData(0);
+  for (let i = 0; i < data.length; i++) {
+    data[i] = Math.random() * 2 - 1;
+  }
+
+  const noise = ctx.createBufferSource();
+  noise.buffer = noiseBuffer;
+
+  const filter = ctx.createBiquadFilter();
+  filter.type = "bandpass";
+  filter.frequency.value = 1800;
+
+  const noiseGain = ctx.createGain();
+  noiseGain.gain.setValueAtTime(0.0001, now + 0.4);
+  noiseGain.gain.exponentialRampToValueAtTime(0.12, now + 0.45);
+  noiseGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.9);
+
+  noise.connect(filter);
+  filter.connect(noiseGain);
+  noiseGain.connect(masterGain);
+
+  noise.start(now + 0.4);
+  noise.stop(now + 1.0);
+}
 
       function moveNoButton(event) {
         const buttonRect = noBtn.getBoundingClientRect();
