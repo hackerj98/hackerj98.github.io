@@ -887,6 +887,17 @@
     </main>
 
     <div id="celebration" aria-hidden="true"></div>
+    <audio
+      id="yes-audio"
+      src="images/Abhi%20Toh%20Party%20Shuru%20Hui%20Hai%20-%2064Kbps-(Mr-Jat.in).mp3"
+      preload="auto"
+    ></audio>
+    <audio
+      id="gallery-audio"
+      src="images/Love-Mocktail-Nanna-Sneha-Nanna-Prema-Nanna-Preethi-Neene-Kannada-Ringtone.mp3"
+      preload="auto"
+      loop
+    ></audio>
 
     <script>
       // Background hearts (slow floating)
@@ -914,81 +925,9 @@
       const successContent = document.getElementById("success-content");
       const gallery = document.getElementById("gallery");
       const celebration = document.getElementById("celebration");
+      const yesAudio = document.getElementById("yes-audio");
+      const galleryAudio = document.getElementById("gallery-audio");
       let noMoves = 0;
-
-      function playChime() {
-  const AudioCtx = window.AudioContext || window.webkitAudioContext;
-  const ctx = new AudioCtx();
-
-  const masterGain = ctx.createGain();
-  masterGain.gain.value = 0.35;
-  masterGain.connect(ctx.destination);
-
-  const now = ctx.currentTime;
-
-  // ---- Helper to play a note ----
-  function playNote(freq, start, duration, type = "triangle", gain = 0.15) {
-    const osc = ctx.createOscillator();
-    const g = ctx.createGain();
-
-    osc.type = type;
-    osc.frequency.setValueAtTime(freq, start);
-
-    g.gain.setValueAtTime(0.0001, start);
-    g.gain.exponentialRampToValueAtTime(gain, start + 0.02);
-    g.gain.exponentialRampToValueAtTime(0.0001, start + duration);
-
-    osc.connect(g);
-    g.connect(masterGain);
-
-    osc.start(start);
-    osc.stop(start + duration);
-  }
-
-  // ---- Happy melody (major scale bounce) ----
-  const melody = [
-    523.25, // C5
-    659.25, // E5
-    783.99, // G5
-    1046.5  // C6
-  ];
-
-  melody.forEach((freq, i) => {
-    playNote(freq, now + i * 0.12, 0.35, "triangle", 0.18);
-  });
-
-  // ---- Big “HURRAY” chord swell ----
-  const chord = [261.63, 329.63, 392.0]; // C major
-  chord.forEach(freq => {
-    playNote(freq, now + 0.45, 0.9, "sawtooth", 0.08);
-  });
-
-  // ---- Cheer shimmer (soft noise sparkle) ----
-  const noiseBuffer = ctx.createBuffer(1, ctx.sampleRate * 0.6, ctx.sampleRate);
-  const data = noiseBuffer.getChannelData(0);
-  for (let i = 0; i < data.length; i++) {
-    data[i] = Math.random() * 2 - 1;
-  }
-
-  const noise = ctx.createBufferSource();
-  noise.buffer = noiseBuffer;
-
-  const filter = ctx.createBiquadFilter();
-  filter.type = "bandpass";
-  filter.frequency.value = 1800;
-
-  const noiseGain = ctx.createGain();
-  noiseGain.gain.setValueAtTime(0.0001, now + 0.4);
-  noiseGain.gain.exponentialRampToValueAtTime(0.12, now + 0.45);
-  noiseGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.9);
-
-  noise.connect(filter);
-  filter.connect(noiseGain);
-  noiseGain.connect(masterGain);
-
-  noise.start(now + 0.4);
-  noise.stop(now + 1.0);
-}
 
       function moveNoButton(event) {
         const buttonRect = noBtn.getBoundingClientRect();
@@ -1097,6 +1036,13 @@
         }
       }
 
+      function stopYesAudio() {
+        if (yesAudio) {
+          yesAudio.pause();
+          yesAudio.currentTime = 0;
+        }
+      }
+
       function showMemeThenSuccess() {
         questionPage.classList.add("hidden");
         resultCard.classList.remove("hidden");
@@ -1111,11 +1057,19 @@
           successContent.classList.remove("hidden");
           gallery.classList.remove("hidden");
           createConfetti();
+          stopYesAudio();
+          if (galleryAudio) {
+            galleryAudio.currentTime = 0;
+            galleryAudio.play().catch(() => {});
+          }
         }, 10000);
       }
 
       yesBtn.addEventListener("click", () => {
-        playChime();
+        if (yesAudio) {
+          yesAudio.currentTime = 0;
+          yesAudio.play().catch(() => {});
+        }
         showMemeThenSuccess();
       });
     </script>
