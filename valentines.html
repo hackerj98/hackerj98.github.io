@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Will You Be My Valentine?</title>
+    <style>
+      :root {
+        --pink: #ff6fb1;
+        --hot-pink: #ff3d9a;
+        --soft-pink: #ffe3f1;
+        --red: #ff4d6d;
+        --purple: #8b5cf6;
+        --text: #2c1a1a;
+        --white: #ffffff;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Trebuchet MS", "Verdana", sans-serif;
+        color: var(--text);
+        background: linear-gradient(180deg, #fff0f7 0%, #ffe9f4 100%);
+        overflow-x: hidden;
+      }
+
+      .hearts {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        opacity: 0.6;
+        background-image:
+          radial-gradient(circle at 20px 20px, #ff9ad1 12px, transparent 13px),
+          radial-gradient(circle at 60px 60px, #ff7cc6 10px, transparent 11px),
+          radial-gradient(circle at 120px 40px, #ffb3dd 8px, transparent 9px),
+          radial-gradient(circle at 180px 90px, #ff6fb1 10px, transparent 11px);
+        background-size: 220px 180px;
+        animation: floatHearts 18s linear infinite;
+      }
+
+      @keyframes floatHearts {
+        0% {
+          transform: translateY(0);
+        }
+        100% {
+          transform: translateY(-60px);
+        }
+      }
+
+      .page {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 80px 24px;
+        text-align: center;
+      }
+
+      .card {
+        background: var(--white);
+        border-radius: 24px;
+        padding: 36px 28px;
+        box-shadow: 0 20px 60px rgba(255, 77, 109, 0.25);
+        max-width: 560px;
+        width: 100%;
+      }
+
+      h1 {
+        margin: 0 0 8px;
+        font-size: 2.6rem;
+        color: var(--hot-pink);
+      }
+
+      .subtitle {
+        margin: 0 0 24px;
+        font-size: 1.1rem;
+      }
+
+      .buttons {
+        display: flex;
+        gap: 16px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      button {
+        border: none;
+        padding: 14px 28px;
+        border-radius: 999px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .yes-btn {
+        background: linear-gradient(120deg, var(--red), var(--hot-pink));
+        color: var(--white);
+        box-shadow: 0 12px 30px rgba(255, 77, 109, 0.35);
+      }
+
+      .yes-btn:hover {
+        transform: translateY(-2px) scale(1.02);
+      }
+
+      .no-btn {
+        background: var(--soft-pink);
+        color: var(--text);
+        border: 2px dashed #ffb3dd;
+      }
+
+      .no-wrap {
+        position: relative;
+        height: 60px;
+        min-width: 180px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .sparkle {
+        margin-top: 18px;
+        font-size: 0.95rem;
+        color: #b33b6a;
+      }
+
+      .gallery-page {
+        padding: 80px 24px 120px;
+      }
+
+      .section-title {
+        text-align: center;
+        font-size: 2.2rem;
+        color: var(--purple);
+        margin-bottom: 12px;
+      }
+
+      .timeline {
+        text-align: center;
+        margin: 0 auto 28px;
+        max-width: 760px;
+        font-size: 1rem;
+        background: #fff;
+        border-radius: 18px;
+        padding: 16px 20px;
+        box-shadow: 0 14px 32px rgba(139, 92, 246, 0.2);
+      }
+
+      .gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      figure {
+        margin: 0;
+        background: var(--white);
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 12px 26px rgba(255, 77, 109, 0.2);
+        transition: transform 0.2s ease;
+      }
+
+      figure:hover {
+        transform: translateY(-6px) scale(1.01);
+      }
+
+      figcaption {
+        padding: 12px 14px 16px;
+        font-size: 0.95rem;
+      }
+
+      img {
+        display: block;
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+      }
+
+      .footer-note {
+        text-align: center;
+        margin-top: 36px;
+        font-size: 1rem;
+        color: #b33b6a;
+      }
+
+      .heart-badge {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 999px;
+        background: #ffe3f1;
+        color: #b33b6a;
+        font-size: 0.85rem;
+        margin-bottom: 12px;
+      }
+
+      @media (max-width: 600px) {
+        h1 {
+          font-size: 2rem;
+        }
+
+        img {
+          height: 200px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="hearts" aria-hidden="true"></div>
+
+    <section class="page" id="ask">
+      <div class="card">
+        <div class="heart-badge">💖 Valentines Day Surprise 💖</div>
+        <h1>Will you be my Valentine?</h1>
+        <p class="subtitle">Pick the only right answer, my love.</p>
+        <div class="buttons">
+          <button class="yes-btn" id="yesBtn">Yes, always!</button>
+          <div class="no-wrap">
+            <button class="no-btn" id="noBtn">No 😜</button>
+          </div>
+        </div>
+        <div class="sparkle">✨ Hint: the “No” button is shy and runs away.</div>
+      </div>
+    </section>
+
+    <section class="page gallery-page" id="gallery">
+      <div>
+        <h2 class="section-title">Our Love Story in Photos</h2>
+        <p class="timeline">
+          Started dating in 2019 • Committed on Feb 3rd, 2020 • Married on Nov
+          9th, 2026 💍
+        </p>
+
+        <div class="gallery">
+          <figure>
+            <img src="https://picsum.photos/seed/love-2019-a/400/300" alt="2019 memory" />
+            <figcaption>2019: First sparks and sweet beginnings.</figcaption>
+          </figure>
+          <figure>
+            <img src="https://picsum.photos/seed/love-2019-b/400/300" alt="2019 memory" />
+            <figcaption>2019: Late-night talks and big smiles.</figcaption>
+          </figure>
+          <figure>
+            <img src="https://picsum.photos/seed/love-2020-a/400/300" alt="2020 memory" />
+            <figcaption>2020: Officially us. Feb 3rd forever.</figcaption>
+          </figure>
+          <figure>
+            <img src="https://picsum.photos/seed/love-2020-b/400/300" alt="2020 memory" />
+            <figcaption>2020: Cozy dates and heart eyes.</figcaption>
+          </figure>
+          <figure>
+            <img src="https://picsum.photos/seed/love-2021-a/400/300" alt="2021 memory" />
+            <figcaption>2021: Adventures and inside jokes.</figcaption>
+          </figure>
+          <figure>
+            <img src="https://picsum.photos/seed/love-2021-b/400/300" alt="2021 memory" />
+            <figcaption>2021: Everyday magic together.</figcaption>
+          </figure>
+          <figure>
+            <img src="https://picsum.photos/seed/love-2022-a/400/300" alt="2022 memory" />
+            <figcaption>2022: New places, same favorite person.</figcaption>
+          </figure>
+          <figure>
+            <img src="https://picsum.photos/seed/love-2022-b/400/300" alt="2022 memory" />
+            <figcaption>2022: Laughs that never end.</figcaption>
+          </figure>
+          <figure>
+            <img src="https://picsum.photos/seed/love-2023-a/400/300" alt="2023 memory" />
+            <figcaption>2023: Dreaming bigger, loving deeper.</figcaption>
+          </figure>
+          <figure>
+            <img src="https://picsum.photos/seed/love-2023-b/400/300" alt="2023 memory" />
+            <figcaption>2023: Our favorite views together.</figcaption>
+          </figure>
+          <figure>
+            <img src="https://picsum.photos/seed/love-2024-a/400/300" alt="2024 memory" />
+            <figcaption>2024: New memories, same heartbeats.</figcaption>
+          </figure>
+          <figure>
+            <img src="https://picsum.photos/seed/love-2024-b/400/300" alt="2024 memory" />
+            <figcaption>2024: A year full of us.</figcaption>
+          </figure>
+        </div>
+
+        <div class="footer-note">Scroll down for kisses, stay for forever. 💘</div>
+      </div>
+    </section>
+
+    <script>
+      const noBtn = document.getElementById("noBtn");
+      const noWrap = document.querySelector(".no-wrap");
+      const yesBtn = document.getElementById("yesBtn");
+
+      const moveNoButton = () => {
+        const wrapRect = noWrap.getBoundingClientRect();
+        const maxX = Math.max(0, wrapRect.width - noBtn.offsetWidth);
+        const maxY = 40;
+        const randomX = Math.random() * maxX;
+        const randomY = Math.random() * maxY - maxY / 2;
+        noBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+      };
+
+      noBtn.addEventListener("mouseenter", moveNoButton);
+      noBtn.addEventListener("click", moveNoButton);
+      noBtn.addEventListener("touchstart", (event) => {
+        event.preventDefault();
+        moveNoButton();
+      });
+
+      yesBtn.addEventListener("click", () => {
+        document.getElementById("gallery").scrollIntoView({ behavior: "smooth" });
+      });
+    </script>
+  </body>
+</html>
